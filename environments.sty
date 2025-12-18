@@ -1,0 +1,36 @@
+\ProvidesPackage{environments}
+
+% Theorems and definitions
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma} 
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{definition}[theorem]{Definition}
+
+%\newtheorem*{claim*}{Claim}
+%\newtheorem*{theorem*}{Theorem}
+%\newtheorem*{lemma*}{Lemma}
+
+% Problems
+\newtheoremstyle{prob}{0.5\topsep}{0.5\topsep}{\rm}{}{\sc}{.}{ }{\thmname{#1}\thmnumber{ #2}\thmnote{ {\mdseries#3}}}
+\theoremstyle{prob}
+\newtheorem{problem}{Problem}[section]
+%\newtheorem{problems}[theorem]{Problems}
+
+%\newtheorem*{definition*}{Definition}
+%\newtheorem*{problem*}{Problem}
+%\newtheorem*{problems*}{problems}
+%\newtheorem*{fact*}{Fact}
+\newtheorem*{quiz*}{Quiz}
+
+% Remarks, examples, exercises (within the text)
+\theoremstyle{remark}
+\newtheorem{example}{Example}[section]
+%\newtheorem{examples}[theorem]{Examples}
+\newtheorem{remark}[example]{Remark}
+\newtheorem{exercise}[example]{Exercise}
+
+%\newtheorem*{example*}{Example}
+%\newtheorem*{remark*}{Remark}

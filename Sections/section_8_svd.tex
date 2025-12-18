@@ -1,0 +1,221 @@
+\ProvidesFile{section_8_svd}[Section 8]
+
+\newpage
+
+\section{Singular Value Decomposition}
+
+\subsection{Motivation for SVD}
+
+If $A$ is an $m \times n$ matrix of rank $r$, then it can be written as
+$$
+A = B C,
+$$
+where $B$ is an $m \times r$ matrix and  $C$ is an $r \times n$ matrix. Then instead of storing the whole matrix $A$ ($mn$ memory cells), we can store the matrices $B$ and $C$ in $(m+n)r$ memory cells.
+
+\begin{exercise}
+Consider the matrix
+$$
+A = \begin{pmatrix}
+1 & 2 & -1 \\
+3 & 6 & -3 \\
+-1 & -2 & 1
+\end{pmatrix}.
+$$
+Represent $A$ as $B C$, where $B$ is $3\times 1$ matrix and $C$ is $1\times 3$ matrix.
+\end{exercise}
+
+\begin{exercise}
+Consider the matrix
+$$
+A = \begin{pmatrix}
+1 & 2 & -1 \\
+2 & 1 & 0 \\
+4 & 5 & -2
+\end{pmatrix}.
+$$
+Represent $A$ as $B C$, where $B$ is $3\times 2$ matrix and $C$ is $2\times 3$ matrix.
+\end{exercise}
+
+We will construct a representation $A = B D C$, where $D$ is a diagonal matrix.
+
+Often the matrix $A$ has full rank; nevertheless, for compression and noise reduction we will later discard the smallest diagonal entries of $D$ (corresponding to the smallest singular values).
+
+\subsection{Definition of SVD}
+
+\begin{lemma}
+Matrices $A A^{\mathrm T}$ and $A^{\mathrm T} A$ are symmetric and share the same non-zero eigenvalues.
+\end{lemma}
+
+Then there exist orthogonal matrices $U$ and $V$ and a diagonal matriх with nonnegative entries $\Lambda$ such that
+$$
+A A^{\mathrm T} = U \Lambda U^{\mathrm T},
+$$
+$$
+A^{\mathrm T} A = V \Lambda V^{\mathrm T}
+$$.
+
+When $A$ is a real matrix, the symmetric matrices $A A^{\mathrm T}$ and $A^{\mathrm T} A$ have real eigenvalues. If $A$ has independent rows, then $A A^{\mathrm T}$ is positive definite and all its eigenvalues are positive. If it has independent columns, then $A^{\mathrm T} A$ is positive definite and all its eigenvalues are positive. In the general case, $A A^{\mathrm T}$ and $A^{\mathrm T} A$ are positive semidefinite and their eigenvalues are nonnegative.
+
+Let us arrange the eigenvalues of $A A^{\mathrm T}$ (and $A^{\mathrm T} A$) in decreasing order:
+$$
+\sigma_1^2 \geqslant \sigma_2^2 \geqslant \cdots \geqslant \sigma_r^2 > 0 = \sigma_{r+1}^2 = \cdots = \sigma_n^2,
+$$
+where $r$ is the rank of $AA^T$ (and $A^TA$).
+
+Denote a matrix $\Sigma = \diag(\sigma_1, \sigma_2, \cdots, \sigma_r, 0, \cdots, 0)$.
+
+Then for orthogonal matrices $U$ (eigenvectors of $A A^{\mathrm T}$) and $V$ (eigenvectors of $A^{\mathrm T} A$) we can write
+$$
+AA^T = U \Sigma^2 U^{\mathrm T} = U\Sigma V^T V\Sigma U^T = (U\Sigma V^T)(U\Sigma V^T)^{\mathrm T}.
+$$
+We call $A = U \Sigma V^{\mathrm T}$ the Singular Value Decomposition (SVD) of $A$. The numbers $\sigma_1, \sigma_2, \ldots, \sigma_{\min(m,n)}$ are the singular values of $A$, and the columns of $U$ and $V$ are the left and right singular vectors of $A$, respectively. The number of nonzero singular values equals the rank of $A$.
+
+(We skip the rigorous proof of the existence of SVD and move to the algorithm using the observations above.)
+
+\subsection{Low-rank approximation}
+
+\begin{definition}
+The Frobenius norm of a matrix $A$ is defined as
+$$
+\|A\|_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n |a_{ij}|^2}.
+$$
+\end{definition}
+
+\begin{theorem}
+Fix a matrix $A$ and consider a problem
+$$
+\left\{\begin{array}{l}
+    \|A-B\|_F \rightarrow \min _B \\
+    \operatorname{rk} B \leqslant k
+    \end{array}\right.
+$$
+Then the solution of this problem is the matrix $B = U \Sigma_k V^{\mathrm T}$, where $\Sigma_k$ is obtained from $\Sigma$ by keeping only the first $k$ singular values (and zeroing out the rest).
+\end{theorem}
+
+\subsection{Pseudoinverse}
+
+\begin{exercise}
+Let $A$ be a nondegenerate matrix with known singular values $\sigma_1, \sigma_2, \cdots, \sigma_n$. Find the singular values of $A^{-1}$.
+\end{exercise}
+
+\begin{definition}
+The pseudoinverse of a matrix $A$ is defined as
+$$
+A^+ = V \Sigma^+ U^{\mathrm T},
+$$
+where $\Sigma^+$ is the matrix with the reciprocals of the non-zero singular values of $A$ on the diagonal.
+\end{definition}
+
+Note that if $A$ is invertible, then $A^+ = A^{-1}$.
+
+Consider the following problem: solve the matrix equation $Ax = b$. If $A$ is invertible, then there is a unique solution $x = A^{-1}b$. If $A$ is not invertible, then there can be more than one solution or zero solutions. In case it does not have a solution, we can find the 'solution' $y$ that minimizes the norm of the error $\|Ay - b\|$. It turns out that the solution is given by $y = A^+b$.
+
+\subsection{Problems}
+
+\begin{problem}
+Find the rank $r$ of matrix $A$ and represent it as a product of matrices with $r$ columns and $r$ rows:
+\begin{enumerate}[a) ]
+    \item 
+    $
+    A=\begin{pmatrix}
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        1 & 1 & 1 & 1 & 1 & 1
+        \end{pmatrix},
+    $
+    \item 
+    $
+    A=\begin{pmatrix}
+        a & a & c & c & e & e \\
+        a & a & c & c & e & e \\
+        a & a & c & c & e & e \\
+        a & a & c & c & e & e \\
+        a & a & c & c & e & e \\
+        a & a & c & c & e & e
+        \end{pmatrix}.
+    $
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Find the SVD of the matrix
+\begin{enumerate}[a) ]
+\item
+$\begin{pmatrix}
+    1 & 0 \\
+    1 & 1
+    \end{pmatrix}$
+\item
+$\begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        1 & 1 & 0 & 0 \\
+        1 & 1 & 1 & 0 \\
+        1 & 1 & 1 & 1
+        \end{pmatrix}$
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Find eigenvalues, eigenvectors and the SVD of the matrix
+\begin{enumerate}[a) ]
+\item $\begin{pmatrix}
+    3 & 0 \\
+    4 & 5
+    \end{pmatrix}$
+\item $\begin{pmatrix}
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 2 & 0 \\
+        0 & 0 & 0 & 3 \\
+        0 & 0 & 0 & 0
+        \end{pmatrix}$
+\item $\begin{pmatrix}
+            0 & 4 \\
+            0 & 0
+            \end{pmatrix}$
+\item $\begin{pmatrix}
+            0 & 4 \\
+            1 & 0
+            \end{pmatrix}$
+\item $\begin{pmatrix}
+                2 & 2 \\
+                -1 & 1
+                \end{pmatrix}$
+\item $\begin{pmatrix}
+                    1 & 1 & 0 \\
+                    0 & 1 & 1
+                    \end{pmatrix}$
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Find the pseudoinverse of the matrices from 8.3. Compare this to the inverse of the matrices which are invertible.
+\end{problem}
+
+\begin{problem}
+Find the best approximation to the solution of the system of linear equations ($x$ is a column vector of corresponding size):
+\begin{enumerate}[a) ]
+    \item $\begin{pmatrix}
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 2 & 0 \\
+        0 & 0 & 0 & 3 \\
+        0 & 0 & 0 & 0
+        \end{pmatrix}x = \begin{pmatrix}
+        0 \\ 1 \\ 2 \\ 3
+        \end{pmatrix}$,
+\item $\begin{pmatrix}
+            0 & 4 \\
+            0 & 0
+            \end{pmatrix}x = \begin{pmatrix}
+            1 \\ 1
+            \end{pmatrix}$,
+\item $\begin{pmatrix}
+                2 & 2 \\
+                -1 & 1
+                \end{pmatrix}x = \begin{pmatrix}
+                -1 \\ -1
+                \end{pmatrix}$.
+\end{enumerate}
+\end{problem}

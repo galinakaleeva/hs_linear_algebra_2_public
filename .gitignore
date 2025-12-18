@@ -1,0 +1,40 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fdb_latexmk
+*.synctex.gz
+*.synctex.gz(busy)
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.dvi
+*.ps
+
+# MacOS
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editors/IDE
+.vscode/
+.cursor/
+*.code-workspace
+
+# Python cache (if any scripts are added)
+__pycache__/
+*.pyc
+
+

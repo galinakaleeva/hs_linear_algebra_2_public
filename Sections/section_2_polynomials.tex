@@ -1,0 +1,179 @@
+%TO DO: все перевести и проверить грамматику
+
+\ProvidesFile{section_2_polynomials}[Section 2]
+
+\newpage
+
+\section{Polynomials}
+
+\subsection{Definition and basic properties}
+
+In this section we will consider polynomials with real coefficients. However, all the results (if not explicitly stated otherwise) will be valid for polynomials with complex coefficients and even for polynomials with coefficients from an arbitrary field (see the next section for definitions). That's why we formulate most results for the general case of polynomials with coefficients from a field $F$, but we will keep in mind $F = \R$ in this section.
+
+Recall that a \underline{\it polynomial} over $F$ is a function of the form 
+$$p(x) = a_n x^n + a_{n-1} x^{n-1} + \cdots + a_1 x + a_0,$$
+where $a_n, a_{n-1}, \ldots, a_1, a_0\in F$ and $n$ is a non-negative integer. The set of all polynomials with coefficients from $F$ is denoted by $F[x]$.
+
+The \underline{\it degree} of the polynomial is the highest power of the variable in the polynomial with a nonzero coefficient. We denote the degree of the polynomial $p(x)$ by $\deg p(x)$. The degree of the zero polynomial is defined to be $-\infty$ by convention.
+
+\begin{exercise}
+Prove that if $p(x), g(x)$ are nonzero polynomials, then $\deg(p(x)q(x)) = \deg p(x) + \deg q(x)$.
+\end{exercise}
+
+\begin{exercise}
+Prove that if $p(x), g(x)$ are polynomials, then $\deg(p(x) + q(x)) \leqslant \max(\deg p(x), \deg q(x))$. Provide an example of polynomials $p(x)$ and $q(x)$ such that the equality is strict.
+\end{exercise}
+
+We can divide polynomials with real coefficients (for example, by long division). In general, we can divide one polynomial by another with a remainder. Assume we have two polynomials $p(x)$ and $q(x)$ with real coefficients. We can find two polynomials $s(x)$ and $r(x)$ with real coefficients such that $p(x) = q(x)s(x) + r(x)$ and $\deg r(x) < \deg q(x)$. The polynomial $s(x)$ is called the \underline{\it quotient}, and the polynomial $r(x)$ is called the \underline{\it remainder}. Note that the quotient and the remainder are unique.
+
+\begin{exercise}
+Find the quotient and the remainder of the division of $p(x) = x^3 + 2x^2 - x + 1$ by $q(x) = x^2 + 1$.
+\end{exercise}
+
+\begin{definition}
+A number $\lambda\in F$ is called a \underline{\it root} of the polynomial $p(x)$ if $p(\lambda) = 0$.
+\end{definition}
+
+\begin{lemma}
+$\lambda\in F$ is a root of the polynomial $p(x)$ if and only if $p(x)$ is divisible by $x - \lambda$.
+\end{lemma}
+
+\begin{proof}
+Divide $p(x)$ by $x - \lambda$ with a remainder:
+$$p(x) = (x - \lambda)q(x) + r(x),$$
+where $r(x)$ is a polynomial of degree less than $\deg(x - \lambda) = 1$. Since $\deg r(x) < 1$, we have $r(x) = r$ for some number $r\in F$. Substituting $x = \lambda$ into the equation, we get $p(\lambda) = (x - \lambda)q(\lambda) + r = 0 + r = r$. Therefore, $r = 0$ ($p(x) = (x-\lambda)q(x)$) if and only if $\lambda$ is a root of $p(x)$.
+\end{proof}
+
+\begin{exercise}
+Prove the \underline{little Bézout's theorem}: for any polynomial $p(x)$ and a number $\mu\in F$, the value $p(\mu)$ is equal to the remainder of the division of $p(x)$ by $x - \mu$.
+\end{exercise}
+
+\begin{definition}
+We say that the \underline{\it multiplicity} of a root $\lambda$ of a polynomial $p(x)$ equals $m$ if $p(x)$ is divisible by $(x - \lambda)^m$ and is not divisible by $(x - \lambda)^{m+1}$.
+\end{definition}
+
+\begin{lemma}
+A polynomial $p(x)$ of positive degree $n$ has at most $n$ roots.
+\end{lemma}
+\begin{proof}
+By induction on $n$. For $n = 1$, the polynomial $a_1 x + a_0$ ($a_1 \neq 0$) has exactly one root $x = -\frac{a_0}{a_1}$. Assume that the statement is true for some $n \geqslant 1$. Let $p(x)$ be a polynomial of degree $n+1$. If $p(x)$ has no roots, then the statement is true. If $p(x)$ has a root $\lambda$, then $p(x) = (x - \lambda)q(x)$ for some polynomial $q(x)$ of degree $n$. By the induction hypothesis, $q(x)$ has at most $n$ roots. Therefore, $p(x)$ has at most $n+1$ roots.
+\end{proof}
+
+\begin{corollary}
+Coefficients of a polynomial over $\R$ ($\C$, or any other \underline{infinite} field) are uniquely determined by the polynomial.
+\end{corollary}
+
+\begin{proof}
+Assume that some polynomial (as a function) has two different representations. Then subtracting these representations, we get a polynomial of positive degree (why?) with infinitely many roots --- all real numbers, which contradicts the lemma.
+\end{proof}
+
+Polynomials with coefficients from $F$ form a vector space over $F$. One basis of this vector space is the set of polynomials $1, x, x^2, \ldots, x^n, \ldots$. Polynomials of degree at most $n$ form a subspace of this vector space, which is denoted by $F_n[x]$.
+
+\begin{exercise}
+    Find a basis and the dimension of the vector space $\R_n[x]$. Prove explicitly the linear independence of the basis.
+\end{exercise}
+
+The fact that polynomials form a vector space gives us a nice proof of the possibility (and uniqueness) of dividing polynomials with a remainder. Specifically, if we want to divide a polynomial $p(x)$ of degree $n$ by a polynomial $q(x)$ of degree $m$, then we choose as a basis in $F_n[x]$ the set $1, x, x^2, \ldots, x^{m - 1}, q(x), q(x)x, q(x)x^2, \ldots, q(x)x^{n-m}$. (Why is this a basis?) Then $p(x)$ can be uniquely represented in the form 
+$$p(x) = a_0 \cdot 1+ a_1x + a_2x^2 + \ldots + a_{m-1}x^{m - 1} + a_m q(x) + a_{m+1}q(x)x + a_{m+2} q(x)x^2+ \ldots+ a_{m + (n-m)} q(x)x^{n-m},
+$$ where the first $m$ terms are the remainder of the division of $p(x)$ by $q(x)$, and the last $n-m+1$ terms are the product of $q(x)$ and the quotient.
+
+\subsection{Greatest common divisor}
+
+Recall that the greatest common divisor of two polynomials $p(x)$ and $q(x)$ is the polynomial that divides both $p(x)$ and $q(x)$ and is divisible by any other polynomial that divides both $p(x)$ and $q(x)$. Equivalently, the greatest common divisor is the polynomial of the highest degree that divides both $p(x)$ and $q(x)$. Notation: $\gcd(p(x), q(x))$, or just $(p(x), q(x))$.
+
+The greatest common divisor of two polynomials can be found using the Euclidean algorithm. It is the last nonzero remainder in this algorithm. Moreover, by the extended Euclidean algorithm (i.e., by back-substitution in the Euclidean algorithm) we can find polynomials $s(x)$ and $t(x)$ such that $\gcd(p(x), q(x)) = s(x)p(x) + t(x)q(x)$.
+
+
+\begin{exercise}
+Find the greatest common divisor of the polynomials $p(x) = x^4 + 2x^3 - x^2 - 4x - 2$ and $q(x) = x^4 + x^3 - x^2 - 2x - 2$. Also represent it in the form $s(x)p(x) + t(x)q(x)$.
+\end{exercise}
+
+\begin{exercise}
+Find all common zeros of polynomials $p(x) = 48x^3-22x^2 - 21 x + 10$ and $q(x) = 32x^3 + 12x^2 - 12x - 5$. (Hint: first find the greatest common divisor.)
+\end{exercise}
+\begin{comment}
+$p(x) = 48(x - 1/2)(x + 2/3)(x - 5/8)$, $q(x) = 32(x + 1/2)^2(x - 5/8)$.
+\end{comment}
+
+\begin{definition}
+Two polynomials $p(x)$ and $q(x)$ are called coprime if $\gcd(p(x), q(x)) = 1$.
+\end{definition}
+
+Analogously to the case of two polynomials, we define the greatest common divisor of several polynomials as a common divisor that is divisible by every common divisor of these polynomials.
+
+\begin{lemma}
+Let $p_1, p_2, \ldots, p_k$ be polynomials. Then there exist polynomials $s_1, s_2, \ldots, s_k$ such that 
+$$\gcd(p_1, p_2, \ldots, p_k) = s_1 p_1 + s_2 p_2 + \ldots + s_k p_k.
+$$
+\end{lemma}
+
+\begin{proof}
+Prove by induction on $k$. (For $k = 1$ the statement is trivial.) For $k = 2$, the statement is true by the Euclidean algorithm. Assume that the statement is true for some $k\geqslant 2$. Let $p_1, p_2, \ldots, p_k, p_{k+1}$ be polynomials and 
+$$\gcd(p_1, p_2, \ldots, p_k) = s_1 p_1 + s_2 p_2 + \ldots + s_k p_k.$$
+Since $\gcd(p_1, p_2, \ldots, p_k, p_{k+1}) = \gcd(\gcd(p_1, p_2, \ldots, p_k), p_{k+1})$, we can find two polynomials $s_{k+1}$ and $t$ such that 
+$$\gcd(\gcd(p_1, p_2, \ldots, p_k), p_{k+1}) =
+t\,\gcd(p_1, \dots, p_k) + s_{k+1} p_{k+1},$$
+i.e.
+$$\gcd(p_1, p_2, \ldots, p_k, p_{k+1}) = t s_1 p_1 + t s_2 p_2 + \ldots + t s_k p_k + s_{k+1} p_{k+1}.$$
+\end{proof}
+
+\subsection{Problems}
+
+% 1, 1, -1, 2, 5
+\begin{problem}
+    Find all roots of the following polynomials:
+    
+    \begin{enumerate}[a) ]
+    % 5 2 1 1 -1
+    \item $p(x) = x^5 - 8 x^4 + 16 x^3 - 2 x^2 - 17 x + 10$;
+    
+    % 1 -1 x^2 - 15x + 1
+    \item $p(x) = x^4 - 15 x^3 + 15 x - 1$;
+    
+    % -1, -1, -1, x^2 + 3x + 12
+    \item $p(x) = x^5 + 6 x^4 + 24 x^3 + 46 x^2 + 39 x + 12$.
+    \end{enumerate}
+\end{problem}
+
+\begin{problem}
+Divide the polynomial $f(x)$ by the polynomial $g(x)$:
+\begin{enumerate}[a) ]
+\item $f(x)=2 x^4-3 x^3+4 x^2-5 x+6, \quad g(x)=x^2-3 x+1$;
+\item $f(x)=x^3-3 x^2-x-1, \quad g(x)=3 x^2-2 x+1$.
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Find the greatest common divisor of the following pairs of polynomials:
+\begin{enumerate}[a) ]
+\item $x^4+x^3-3 x^2-4 x-1$ and $x^3+x^2-x-1$;
+\item $x^6+2 x^4-4 x^3-3 x^2+8 x-5$ and $x^5+x^2-x+1$;
+\item $x^5+3 x^2-2 x+2$ and $x^6+x^5+x^4-3 x^2+2 x-6$;
+\item $x^4+x^3-4 x+5$ and $2 x^3-x^2-2 x+2$;
+\item $x^5+x^4-x^3-2 x-1$ and $3 x^4+2 x^3+x^2+2 x-2$;
+\item $x^6-7 x^4+8 x^3-7 x+7$ and $3 x^5-7 x^3+3 x^2-7$;
+\item $x^5-2 x^4+x^3+7 x^2-12 x+10$ and $3 x^4-64 x^3+5 x^2+2 x-2$;
+\item $x^5+3 x^4-12 x^3-52 x^2-52 x-12$ and $x^4+3 x^3-6 x^2-22 x-12$;
+\item $x^5+x^4-x^3-3 x^2-3 x-1$ and $x^4-2 x^3-x^2-2 x+1$;
+\item $x^4-4 x^3+1$ and $x^3-3 x^2+1$;
+\item $x^4-10 x^2+1$ and $x^4-4 \sqrt{2} x^3+6 x^2+4 \sqrt{2} x+1$.
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Find the greatest common divisor of the polynomials $f(x)$ and $g(x)$ and its linear expression through $f(x)$ and $g(x)$:
+\begin{enumerate}[a) ]
+\item $f(x)=x^4+2 x^3-x^2-4 x-2, \quad g(x)=x^4+x^3-x^2-2 x-2$;
+\item $f(x)=3 x^3-2 x^2+x+2, \quad g(x)=x^2-x+1$.
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Find $(f(x), g(x), h(x))$ and represent it in the form $(f(x), g(x), h(x)) = s(x)f(x) + t(x)g(x) + u(x)h(x)$, where
+\begin{enumerate}[a) ]
+% answer 1
+\item $f(x) = 2x^3 - 3x^2 - 11x + 6, \quad g(x) =2x^3 - x^2 - 50x +25, \quad h(x) = x^3 - 4x^2 - 7x +10;$
+%answer 1
+\item $f(x) = x^3 - 3 x^2 + x - 3, \quad g(x) = x^3 - 2 x^2 + x - 2, \quad h(x) = x^3 - 3 x^2 + 3 x - 9.$
+\end{enumerate}
+\end{problem}

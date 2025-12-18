@@ -1,0 +1,482 @@
+\ProvidesFile{section_4_linear_operator}[Section 4]
+
+\newpage
+
+\section{Linear operators}
+
+\subsection{Direct sum of subspaces}
+
+From now on, we assume that the field $\F$ is either the field of real numbers or the field of complex numbers.
+
+We recall that vectors $v_1, \ldots, v_n$ in a vector space are linearly independent if from the relation $\alpha_1 v_1 + \dots + \alpha_n v_n = 0$ it follows that $\alpha_1 = \dots = \alpha_n = 0$; equivalently, every vector in the span of $\{v_1, \ldots, v_n\}$ is represented uniquely as a linear combination of $v_1, \ldots, v_n$. Now we will try to generalize this definition to subspaces.
+
+Let $V$ be a vector space over a field $\F$, and let $U_1, \ldots, U_k$ be subspaces of $V$. Consider their sum
+$$
+U = U_1 + \dots + U_k = \{u_1 + \dots + u_k \mid u_i \in U_i\}.
+$$
+Clearly, this is a subspace of $V$. In general, a vector $u \in U$ may have more than one representation as a sum of vectors from $U_1, \ldots, U_k$.
+
+\begin{example}
+    Consider the vector space $\R^3$ and the subspaces $U_1 = \{(x, y, 0)\}$ and $U_2 = \{(0, a, b)\}$. Then the sum $U_1 + U_2$ is the whole space $\R^3$. Vector $(1, 3, 1)$ can be represented as $(1, 1, 0) + (0, 2, 1) = (1, 2, 0) + (0, 1, 1)$ in two different ways.
+\end{example}
+
+\begin{definition}
+    The sum of subspaces $U_1, \ldots, U_k$ of a vector space $V$ is called \underline{\it direct} if any vector $u \in U$ can be represented as a sum of vectors from $U_1, \ldots, U_k$ in a unique way. In this case we write $U = U_1 \oplus \dots \oplus U_k$.
+\end{definition}
+
+\begin{lemma}
+    The sum of subspaces $U_1, \ldots, U_k$ of a vector space $V$ is direct if and only if the zero vector is represented as a sum $0 = u_1 + \dots + u_k$ in a unique way, i.e. if and only if $u_1 = \dots = u_k = 0$.
+\end{lemma}
+
+\begin{proof}
+    The "if" part is obvious. For the "only if" part, assume that there is a non-zero vector $w \in U$ such that $w = u_1 + \dots + u_k = u_1' + \dots + u_k'$ in two different ways. Then $(u_1 - u_1') + \dots + (u_k - u_k') = 0$, where $u_i - u_i' \in U_i$ and at least one of the vectors $u_i - u_i' \neq 0$, which contradicts the assumption that $0$ has a unique representation.
+\end{proof}
+
+\begin{exercise}
+Prove that for two subspaces $U_1$ and $U_2$ of a vector space $V$, the sum $U = U_1 \oplus U_2$ is direct if and only if $U_1 \cap U_2 = \{0\}$.
+\end{exercise}
+
+\begin{exercise}
+Provide an example of a vector space and three of its subspaces $U_1, U_2, U_3$ such that $U_1\cap U_2 = \{0\}$, $U_2\cap U_3 = \{0\}$, $U_3\cap U_1 = \{0\}$, but the sum $U = U_1+ U_2+ U_3$ is not direct.
+\end{exercise}
+
+\begin{lemma}
+    Prove that the sum of subspaces $U_1, \ldots, U_k$ of a vector space $V$ is direct if and only if 
+    $$
+    U_i \cap (U_1 + \dots + U_{i - 1} + U_{i+1} + \dots + U_k) = \{0\} \quad \text{for all } i = 1, 2, \dots, k.
+    $$
+\end{lemma}
+
+\begin{proof}
+Assume first that the sum $U = U_1 \oplus \dots \oplus U_k$ is direct. Let $u \in U_i \cap (U_1 + \dots + U_{i-1} + U_{i+1} + \dots + U_k)$. Then $u$ has two representations as a sum of vectors from $U_j$:
+$$
+u = u_i \quad (u_i \in U_i), \qquad
+u = u_1 + \dots + u_{i-1} + u_{i+1} + \dots + u_k \quad (u_j \in U_j).
+$$
+By uniqueness of representation in a direct sum, all components must be zero, whence $u = 0$. Thus,
+$$
+U_i \cap (U_1 + \dots + U_{i-1} + U_{i+1} + \dots + U_k) = \{0\}
+$$
+for every $i$.
+
+Conversely, assume that for every $i$ we have
+$$
+U_i \cap (U_1 + \dots + U_{i-1} + U_{i+1} + \dots + U_k) = \{0\}.
+$$
+Suppose $u_1 + \dots + u_k = 0$ with $u_i \in U_i$. Then
+$$
+u_1 = -(u_2 + \dots + u_k) \in U_1 \cap (U_2 + \dots + U_k) = \{0\},
+$$
+so $u_1 = 0$. Repeating the same argument for $i=2,\dots,k$ gives $u_2 = \dots = u_k = 0$. Hence the representation of any vector in $U_1 + \dots + U_k$ is unique, and therefore the sum is direct.
+\end{proof}
+
+\begin{lemma}
+Let $U = U_1 \oplus \dots \oplus U_k$ be a direct sum of subspaces $U_1, \ldots, U_k$ of a vector space $V$. Let $e_1^i, \dots, e_{m_i}^i$ be a basis of $U_i$ for each $i = 1, \ldots, k$. Then the set of vectors $e_1^1, \dots, e_{m_1}^1, \dots, e_1^k, \dots, e_{m_k}^k$ is a basis of $U$.
+\end{lemma}
+
+\begin{proof}
+It is clear that every vector $u \in U$ can be represented as a sum of vectors from the union of bases of $U_i$. 
+
+Prove linear independence of the set of vectors $e_1^1, \dots, e_{m_1}^1, \dots, e_1^k, \dots, e_{m_k}^k$. If $\alpha_1 e_1^1 + \dots + \alpha_{m_1}^1 e_{m_1}^1 + \dots + \alpha_1^k e_1^k + \dots + \alpha_{m_k}^k e_{m_k}^k = 0$, then $\alpha_1^i e_1^i + \dots + \alpha_{m_i}^i e_{m_i}^i = 0$ for all $i = 1, \ldots, k$, because the sum is direct. Inside every $U_i$ all the coefficients $\alpha_1^i, \dots, \alpha_{m_i}^i$ are zero, because the vectors $e_1^i, \dots, e_{m_i}^i$ are linearly independent.
+\end{proof}
+
+\begin{corollary}
+    $\dim(U_1 \oplus \dots \oplus U_k) = \dim(U_1) + \dots + \dim(U_k)$.
+\end{corollary}
+
+\begin{exercise}
+    Prove the converse: if $\dim(U_1 + \dots + U_k) = \dim(U_1) + \dots + \dim(U_k)$, then the sum is direct.
+\end{exercise}
+
+\subsection{Linear operators: definition}
+
+\begin{flushright}
+    \emph{The main purpose of a matrix is to be the matrix of a linear operator.}
+\end{flushright}
+
+\begin{definition}
+A linear operator $\A$ on a vector space $V$ over a field $F$ is a linear transformation that maps vectors in $V$ to vectors in $V$. 
+To be more precise, a linear operator is a map  $\A\colon V \to V$ that satisfies the following properties for all vectors $v, w \in V$ and all scalars $\alpha \in \F$:
+\begin{itemize}
+    \item $\A(v + w) = \A(v) + \A(w)$;
+    \item $\A(\alpha v) = \alpha \A(v)$.
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+Later we will skip parentheses and write $\A v$ instead of $\A(v)$.
+\end{remark}
+
+\begin{example}[by a lazy mathematician]
+The zero operator $\O$ on any vector space $V: \O(v) = 0$ for all $v \in V$.
+The identity operator $I\colon V \to V$, $I(v) = v$ for all $v \in V$.
+\end{example}
+
+\begin{exercise}\label{polynomial_linear_operator_example}
+    Consider a map $\varphi\colon \R[x, 3] \to \R[x, 3]$, $\varphi(p(x)) = p''(x)(x^2 + 1) + p(5)$. Prove that $\varphi$ is a linear operator.
+\end{exercise}
+
+Note that the set of all linear operators on a vector space $V$ is a vector space itself (the zero vector is the zero operator); we denote it by $\L(V)$.
+
+The matrix of a linear operator $\A\colon V \to V$ is a matrix that represents the linear operator with respect to a basis of $V$. Let $e = (e_1, e_2, \dots, e_n)$ be a basis of a finite-dimensional vector space $V$. Then the matrix of $\A$ is the matrix $A$ such that
+$$
+\A e = e A.
+$$
+
+If we expand this equation, we get
+$$
+(\A e_1, \A e_2, \dots, \A e_n) =\left( \sum_{i=1}^n A_{i1} e_i, \sum_{i=1}^n A_{i2} e_i, \dots, \sum_{i=1}^n A_{in} e_i \right).
+$$
+This means that the $j$-th column of the matrix $A$ contains the coordinates of the image of the $j$-th basis vector under the linear operator. The size of this matrix is $n \times n$.
+
+\begin{remark}
+We will use calligraphic letters for linear operators, and regular letters for the corresponding matrices.
+\end{remark}
+
+\begin{exercise}
+Given the matrix $A$ of a linear operator $\A$ on a vector space $V$ with respect to the basis $e$ of $V$, and a vector $v \in V$ with coordinates in the basis $e$, find the coordinates of the image of $v$ under the linear operator $\A$ in the basis $e$.
+\end{exercise}
+
+\begin{remark}
+We can define a linear operator on a vector space without specifying a basis (see examples above). But we cannot write down its matrix without fixing a basis.
+\end{remark}
+
+\begin{remark}
+It is easy to see that a linear operator (like any linear transformation) is uniquely determined by its values on the basis vectors (of some basis).
+\end{remark}
+
+\begin{exercise}
+Find the matrix of the linear operator $\varphi$ from Exercise \ref{polynomial_linear_operator_example} with respect to the standard basis of $\R[x, 3]$ (i.e. $1, x, x^2, x^3$).
+\end{exercise}
+
+\begin{exercise}
+Find the matrices of $\O$ and $I$ on a finite-dimensional vector space $V$. Do they depend on the basis?
+\end{exercise}
+
+\begin{exercise}
+What does the matrix of a rotation of the plane by an angle $\varphi = \frac{\pi}{3}$ look like?
+\end{exercise}
+
+\begin{exercise}
+Find any basis and the dimension of $\L(V)$, where $V$ is a finite-dimensional vector space.
+\end{exercise}
+
+\subsection{Properties of linear operators}
+
+In the previous section, we became acquainted with the matrix of a linear operator and even used it to solve problems. Fixing a basis and writing everything in matrix form can be useful for solving many problems. However, it is important to understand how the choice of basis affects the appearance of the matrix; that is, how the matrix of a linear operator changes when we switch to a different basis of the space $V$.
+
+\begin{lemma}
+Let $e = (e_1, e_2, \dots, e_n)$ and $e' = (e_1', e_2', \dots, e_n')$ be two bases of a vector space $V$ and let $C$ be the change of basis matrix from $e$ to $e'$: $e' = e C$. Then the matrices of a linear operator $\A$ with respect to the bases $e$ and $e'$ are related by the formula
+$$
+A' = C^{-1} A C.
+$$
+\end{lemma}
+\begin{proof}
+We have $\A e' = e' A'$ and $\A e = e A$. Since $e' = e C$, we have $\A(eC) = e C A'$. By linearity of $\A$, we have $\A(eC) =(\A e) C$. Therefore, $\A e = e C A' C^{-1}$, which means that $A = C A C^{-1}$ and $A' = C^{-1} A C$.
+\end{proof}
+
+Since for every square matrix $A$ and invertible matrix $C$ of the same size we have $\det(A) = \det(C A C^{-1}) = \det(C) \det(A) \det(C)^{-1} = \det(A)$, the following definition is well-defined.
+
+\begin{definition}
+The \underline{\it determinant} of a linear operator $\A\colon V \to V$ is the determinant of the matrix of $\A$ with respect to some (and hence any) basis of $V$.
+\end{definition}
+
+\begin{exercise}
+Find determinants of the zero operator and the identity operator on a finite-dimensional vector space $V$; rotation by an angle $\varphi = \frac{\pi}{3}$ on the plane.
+\end{exercise}
+
+\begin{definition}
+Since the rank of a matrix does not change under multiplication by an invertible matrix, we can define the \underline{\it rank} of a linear operator as the rank of the matrix of the operator with respect to some (and hence any) basis of $V$.
+\end{definition}
+
+\begin{definition}
+The \underline{\it trace} of a square matrix $A$ of size $n\times n$ is the sum of the elements on the main diagonal: $$\tr(A) = a_{11} + a_{22} + \dots + a_{nn}.$$
+\end{definition}
+
+\begin{exercise}
+Is it true that $\tr(A B) = \tr(A)\tr(B)$? Prove it or provide a counterexample.
+\end{exercise}
+
+Surprisingly, the trace is invariant under change of basis as well! But to prove it we need to prove the following auxiliary lemma first.
+
+\begin{lemma}
+Let $A$ and $B$ be two square matrices of size $n\times n$. Then $\tr(A B) = \tr(B A)$.
+\end{lemma}
+
+\begin{proof}
+We have $\tr(A B) = \sum_{i=1}^n (A B)_{ii} = \sum_{i=1}^n \sum_{j=1}^n A_{ij} B_{ji} = \sum_{j=1}^n \sum_{i=1}^n B_{ji} A_{ij} = \tr(B A)$.
+\end{proof}
+
+\begin{exercise}
+Do there exist two square matrices $A$ and $B$ such that $A B - BA = I$? (Hint: why do we encounter this exercise at this point?)
+\end{exercise}
+
+\begin{corollary}
+The trace is invariant under change of basis.
+\end{corollary}
+
+\begin{proof}
+We have $\tr(A') = \tr(C^{-1} A C) = \tr(C^{-1}(A C)) = \tr((AC)C^{-1}) = \tr(A(C C^{-1})) = \tr(A)$.
+\end{proof}
+
+\begin{definition}
+The \underline{\it trace} of a linear operator $\A\colon V \to V$ is the trace of the matrix of $\A$ with respect to some (and hence any) basis of $V$.
+\end{definition}
+
+\begin{definition}
+\underline{\it Null space} (\underline{\it kernel}) of a linear operator $\A\colon V \to V$ is the set of all vectors $v \in V$ such that $\A v = 0$: $\nul(\A) = \{v \in V \mid \A v = 0\}$.
+\end{definition}
+
+\begin{definition}
+\underline{\it Range} (\underline{\it image}) of a linear operator $\A\colon V \to V$ is the set of all vectors $w \in V$ such that $w = \A v$ for some $v \in V$: $\range(\A) = \{\A v \mid  v \in V\}$.
+\end{definition}
+
+\begin{lemma}
+The null space and range of a linear operator are subspaces of $V$.
+\end{lemma}
+
+\begin{exercise}
+Prove the lemma above.
+\end{exercise}
+
+\begin{exercise}
+What is the relation between the range and the rank of a linear operator?
+\end{exercise}
+
+\begin{remark}
+Note that we defined the null space and range of a linear operator without fixing a basis. The previous lemma can be proven without fixing a basis as well.
+\end{remark}
+
+Now let us choose a basis in $V$ and write down the matrix of the operator $A$. The null space is the subspace of solutions of the homogeneous system of linear equations $A x = 0$. The range is the span of the columns of the matrix $A$. Since the sum of the dimensions of these two subspaces is equal to the dimension of $V$, we have the following theorem:
+
+\begin{theorem}[Rank-nullity theorem]
+Let $\A\colon V \to V$ be a linear operator on a finite-dimensional vector space $V$. Then
+    $\dim \nul(\A) + \dim \range(\A) = \dim V$.
+\end{theorem}
+
+\begin{definition}
+A linear operator $\A\colon V \to V$ is called \underline{\it nondegenerate} if it is invertible, i.e., if there exists a linear operator $\A^{-1}\colon V \to V$ such that $\A \A^{-1}= \A^{-1} \A = I$.
+\end{definition}
+
+\begin{lemma}[Characterization of nondegenerate operators]
+   The following statements are equivalent for a linear operator $\A\colon V \to V$ on a finite-dimensional vector space $V$:
+    \begin{enumerate}[(1)]
+        \item $\A$ is nondegenerate;
+        \item $\A$ is injective;
+        \item $\nul(\A) = \{0\}$;
+        \item $\A$ is surjective;
+        \item $\A$ is bijective;
+        \item $\rk(\A) = \dim V$;
+        \item $\det(\A) \neq 0$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{exercise}
+Prove the lemma above. (Hint: use the rank-nullity theorem and review Linear algebra 1.)
+\end{exercise}
+
+\begin{exercise}
+Find range, null space, rank, determinant, trace for differentiation of polynomials on $\R[x, 3]$.
+\end{exercise}
+
+\subsection{Special examples of linear operators}
+
+%Проекторы есть в Лекции 7 Тимашева в конце.
+
+\begin{definition}
+A linear operator $A\colon V \to V$ is called \underline{\it nilpotent} if there exists a positive integer $k$ such that $A^k = 0$.
+\end{definition}
+
+\begin{exercise}
+Find the determinant of a nilpotent operator. What values can its rank take?
+\end{exercise}
+
+\begin{definition}
+A linear operator $A\colon V \to V$ is called \underline{\it idempotent} if $A^2 = A$.
+\end{definition}
+
+\begin{exercise}
+Find all nondegenerate idempotent operators. Provide an example of a nonzero degenerate idempotent operator.
+\end{exercise}
+
+\begin{definition}
+A linear operator $\P\colon V \to V$ is called a projection if there exist two subspaces $U$ and $W$ of $V$ such that $V = U \oplus W$ and $\P(u) = u$ for all $u \in U$ and $\P(w) = 0$ for all $w \in W$.
+\end{definition}
+
+\begin{exercise}
+Find the matrix of a projection in a basis consisting of bases of the subspaces $U$ and $W$.
+\end{exercise}
+
+\begin{exercise}
+Prove that a linear operator is a projection if and only if it is idempotent.
+\end{exercise}
+
+Then we can use the following equivalent definition of a projection:
+
+\begin{definition}
+A linear operator $\P\colon V \to V$ is called a projection if $\P^2 = \P$.
+\end{definition}
+
+\subsection{Dual space and dual operator}
+
+\begin{definition}
+The \underline{\it dual space} to a vector space $V$ is the vector space
+$$
+V^* = \{\, \varphi \colon V \to \F \mid \varphi \text{ is linear}\,\}.
+$$
+Elements of $V^*$ are called \underline{\it linear functionals}.
+\end{definition}
+
+\begin{definition}
+Let $e=(e_1,\dots,e_n)$ be a basis of $V$. The \underline{\it dual basis} $e^*=(e^1,\dots,e^n)$ in $V^*$ is defined by
+$$
+e^i(e_j)=\delta^i_j \quad (1\le i,j\le n), \quad \text{where $\delta^i_j$ is the Kronecker delta: $\delta^i_j = 1$ if $i=j$ and $\delta^i_j = 0$ if $i\neq j$}.
+$$
+\end{definition}
+
+\begin{comment}
+\begin{remark}
+If $\dim V=n$, then $\dim V^*=n$. Moreover, the map $V \to V^{**}$ given by $v \mapsto (\varphi \mapsto \varphi(v))$ is an isomorphism (the \underline{\it canonical isomorphism} between $V$ and its double dual $V^{**}$).
+\end{remark}
+\end{comment}
+
+\begin{definition}
+Let $\A\colon V \to V$ be a linear operator. The \underline{\it dual operator} is the linear operator
+$$
+\A^* \colon V^* \to V^*, \qquad \A^*\varphi = \varphi \circ \A .
+$$
+\end{definition}
+
+This means, that $(\A^*\varphi)(v) = \varphi(\A v)$.
+
+\begin{exercise}
+Check that the dual operator is indeed a {\it linear} operator.
+\end{exercise}
+
+% Дальше включать или удалить?
+
+\begin{lemma}* [Matrix of the dual operator]
+Let $e=(e_1,\dots,e_n)$ be a basis of $V$ and $e^*=(e^1,\dots,e^n)$ the dual basis of $V^*$. If $A$ is the matrix of $\A$ in the basis $e$, then the matrix of $\A^*$ in the basis $e^*$ is $A^{\mathsf T}$ (the transpose of $A$).
+\end{lemma}
+
+\begin{proof}
+By definition, for every $\varphi \in V^*$ and $v \in V$ we have $(\A^*\varphi)(v) = \varphi(\A v)$. Writing both sides in coordinates with respect to $e$ and $e^*$ gives the equality of matrices described above.
+\end{proof}
+
+\begin{corollary}*
+For any linear operator $\A\colon V \to V$:
+\begin{enumerate}[(1)]
+    \item $\det(\A^*) = \det(\A)$;
+    \item $\tr(\A^*) = \tr(\A)$;
+    \item $\rk(\A^*) = \rk(\A)$.
+\end{enumerate}
+\end{corollary}
+
+\begin{exercise}*
+Let $V=\R[x,3]$ and let $\mathrm{ev}_a \in V^*$ be the evaluation functional $\mathrm{ev}_a(p)=p(a)$. Describe $\A^*$ explicitly for the differentiation operator $\A=\mathrm{D}$ and for the shift operator $(\A p)(x)=p(x+1)$.
+\end{exercise}
+
+\subsection{Problems}
+
+\begin{problem}
+Let $A$ be a matrix of a linear operator $\A$ on a vector space $V$ with respect to some basis $e$, and $v$ be a vector, written in coordinates with respect to the same basis $e$. Find the coordinates of the image of $v$ under the linear operator $\A$ in the same basis $e$:
+\begin{enumerate}[a) ]
+    \item $A = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{pmatrix}$, $v = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}$;
+    \item $A = \begin{pmatrix} 10 & 0 & 0 \\ 0 & -5 & 0 \\ 0 & 0 & 2 \end{pmatrix}$, $v = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}$;
+    \item $A = \begin{pmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 100 \end{pmatrix}$, $v = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}$.
+\end{enumerate}
+\end{problem}
+
+\begin{problem}\label{operator_list}
+Find the matrix of the operator:
+\begin{enumerate}[a) ]
+    \item $\varphi(e_1) = e_2$, $\varphi(e_2) = e_3$, $\varphi(e_3) = e_1$ and $\varphi(e_4) = e_5$, $\varphi(e_5) = e_4$ on $\mathbb{R}^5$ with respect to the basis $\left(e_1, e_2, e_3, e_4, e_5\right)$;
+    \item $\left(x_1, x_2, x_3\right) \mapsto \left(x_1,\, x_1+2 x_2,\, x_2+3 x_3\right)$ in $\mathbb{R}^3$ with respect to the standard basis;
+    \item rotation of three-dimensional space by angle $2\pi/3$ about the $x$-axis, with respect to the standard basis;
+    \item projection of $\mathbb{R}^3$ onto the $e_2$-axis along the coordinate plane spanned by $e_1$ and $e_3$, in the basis $\left(e_1, e_2, e_3\right)$;
+    \item $X \mapsto \begin{pmatrix}a & b \\ c & d\end{pmatrix} X$ on the space $\mathbf{M}_2(\mathbb{R})$ with respect to the basis of matrix units;
+    \item $X \mapsto X \begin{pmatrix}a & b \\ c & d\end{pmatrix}$ on the space $\mathbf{M}_2(\mathbb{R})$ with respect to the basis of matrix units;
+    \item $X \mapsto X^{\mathsf T}$ on the space $\mathbf{M}_2(\mathbb{R})$ with respect to the basis of matrix units;
+    \item $X \mapsto A X B$ (with fixed matrices $A$ and $B$) on the space $\mathbf{M}_2(\mathbb{R})$ with respect to the basis of matrix units;
+    \item $X \mapsto A X + X B$ (with fixed matrices $A$ and $B$) on the space $\mathbf{M}_2(\mathbb{R})$ with respect to the basis of matrix units;
+    \item differentiation on $\mathbb{R}[x]_n$ in the basis $(1, x, \ldots, x^n)$;
+    \item differentiation on $\mathbb{R}[x]_n$ in the basis $(x^n, x^{n-1}, \ldots, 1)$;
+    \item differentiation on $\mathbb{R}[x]_n$ in the basis $\left(1, x-1, \frac{(x-1)^2}{2}, \ldots, \frac{(x-1)^n}{n!}\right)$.
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Find images, null spaces, ranks, determinants, traces for the operators from Problem \ref{operator_list}.
+\end{problem}
+
+\begin{problem}
+Let a linear operator on $\mathbb{R}^3$ have, in the basis
+$$
+((8,-6,7),(-16,7,-13),(9,-3,7)),
+$$
+the matrix
+$$
+\left(\begin{array}{rrr}
+    1 & -18 & 15 \\
+    -1 & -22 & 20 \\
+    1 & -25 & 22
+    \end{array}\right).
+$$
+Find its matrix in the basis
+$$
+((1,-2,1),(3,-1,2),(2,1,2)).
+$$
+\end{problem}
+
+\begin{problem}
+Prove that in $\mathbb{R}^3$ there exists a unique linear operator that maps the vectors $(1,1,1)$, $(0,1,0)$, $(1,0,2)$ to the vectors $(1,1,1)$, $(0,1,0)$, $(1,0,1)$, respectively, and find the matrix of this operator in the standard basis (the basis of unit vectors).
+\end{problem}
+
+\begin{problem}
+Let a linear operator on a vector space $V$ have, in the basis $\left(e_1, \ldots, e_4\right)$, the matrix
+$$
+\left(\begin{array}{rrrr}
+0 & 1 & 2 & 3 \\
+5 & 4 & 0 & -1 \\
+3 & 2 & 0 & 3 \\
+6 & 1 & -1 & 7
+\end{array}\right).
+$$
+Find the matrix of this operator with respect to the following bases:
+\begin{enumerate}[a) ]
+\item $\left(e_2, e_1, e_3, e_4\right)$;
+\item $\left(e_1, e_1+e_2, e_1+e_2+e_3, e_1+e_2+e_3+e_4\right)$.
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Let a linear operator on $\R_2[x]$ have, in the basis $(1, x, x^2)$, the matrix
+$$
+\left(\begin{array}{lll}
+0 & 0 & 1 \\
+0 & 1 & 0 \\
+1 & 0 & 0
+\end{array}\right)
+$$
+Find its matrix in the basis
+$$
+\left(3 x^2+2 x+1, x^2+3 x+2,2 x^2+x+3\right)
+$$
+\end{problem}
+
+\begin{problem}
+Provide an example of a matrix $A$ of size at least $2 \times 2$ such that $A\neq I$, $A^{100} = I$, and $A^n \neq I$ for all $0 < n < 100$.
+\end{problem}
+
+\begin{problem}
+Let a finite-dimensional vector space $V$ be a direct sum of its subspaces: $V = U_1\oplus U_2\oplus U_3$. Let $\B$ be a linear operator on $V$ such that for all $i=1,2,3$ we have $u\in U_i \Rightarrow \B(u)\in U_i$. Find the matrix of $\B$ in a basis of $V$ that consists of bases of the subspaces $U_1, U_2, U_3$.
+\end{problem}
+
+
+    
+
+
+
+
+
+

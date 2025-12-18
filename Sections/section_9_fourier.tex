@@ -1,0 +1,374 @@
+\ProvidesFile{section_9_fourier}[Section 9]
+
+\newpage
+
+\section{The Fast Fourier Transform}
+
+\subsection{Complex exponentials}
+
+\begin{definition}
+The complex exponential is defined as
+$$
+e^{ix} = \cos(x) + i\sin(x).
+$$
+\end{definition}
+
+Why is it a natural definition? Consider the Taylor series expansion of $e^{ix}$:
+$$
+e^{ix} = 1 + ix + \frac{i^2x^2}{2!} + \frac{i^3x^3}{3!} + \cdots = 1 + ix - \frac{x^2}{2!} - \frac{ix^3}{3!} + \cdots.
+$$
+
+Comparing this with the Taylor series expansion of $\cos(x)$ and $\sin(x)$:
+$$
+\cos(x) = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots,
+$$
+$$
+\sin(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots,
+$$
+we see that
+$$
+e^{ix} = \cos(x) + i\sin(x).
+$$
+
+Then we say that the Fourier series of $f(x)$ is a representation of the following form:
+$$
+f(x) = \sum_{k = -\infty}^{\infty} c_k e^{ikx}.
+$$
+
+The forward Fourier transform is finding the coefficients $c_k$ of this series. The backward
+Fourier transform is finding the function $f(x)$ from the coefficients $c_k$.
+
+\begin{exercise}
+Find the Fourier series of the function $f(x) = e^{ix}$.
+\end{exercise}
+
+\begin{exercise}
+Find the Fourier series of the function $f(x) = \cos(x)$.
+\end{exercise}
+
+\begin{exercise}
+Find the Fourier series of the function $f(x) = \sin(x)$.
+\end{exercise}
+
+\subsection{Fourier matrix}
+
+Let us fix some natural number $n$ and consider the set of all complex $n$-th roots of unity $e^{2\pi i k/n}$ for $k = 0, 1, \cdots, n-1$. If we denote $\varepsilon = e^{2\pi i /n}$ then the set of all $n$-th roots of unity is $\left\{1, \varepsilon, \varepsilon^2, \cdots, \varepsilon^{n-1}\right\}$. Then the Fourier matrix has the following form:
+$$
+F_n = \begin{pmatrix}
+1 & 1 & 1 & \cdots & 1 \\
+1 & \varepsilon & \varepsilon^2 & \cdots & \varepsilon^{n-1} \\
+1 & \varepsilon^2 & \varepsilon^4 & \cdots & \varepsilon^{2(n-1)} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & \varepsilon^{n-1} & \varepsilon^{2(n-1)} & \cdots & \varepsilon^{(n-1)^2}
+\end{pmatrix}.
+$$
+By convention, we enumerate the columns of $F_n$ from $0$ to $n-1$ and the rows from $0$ to $n-1$. Then the entry $F_n(k, m)$ is $\varepsilon^{km} = e^{2\pi i k m /n}$.
+
+\begin{exercise}
+Find the Fourier matrix for $n = 4$. Is $F_4$ symmetric?
+\end{exercise}
+
+\begin{exercise}
+Prove that $(\frac{1}{2} F_4^*)(\frac{1}{2} F_4)= I$, where $F_4^*$ is the conjugate transpose of $F_4$.
+\end{exercise}
+
+A complex matrix $A$ is called unitary if $A^*A = I$. Thus $\frac{1}{2} F_4$ is unitary, and $\overline{F}_4$ is proportional to $F_4^{-1}$ (up to a scalar factor).
+
+\begin{lemma}
+For any natural number $n$ we have $F_n^{-1} = \frac{1}{n} \overline{F_n}$.
+\end{lemma}
+
+Consider the following product:
+$$
+\begin{pmatrix}
+y_0 \\
+y_1 \\
+y_2 \\
+y_3
+\end{pmatrix}
+= F_4 c =
+\begin{pmatrix}
+1 & 1 & 1 & 1 \\
+1 & \varepsilon & \varepsilon^2 & \varepsilon^3 \\
+1 & \varepsilon^2 & \varepsilon^4 & \varepsilon^6 \\
+1 & \varepsilon^3 & \varepsilon^6 & \varepsilon^9
+\end{pmatrix}
+\begin{pmatrix}
+c_0 \\
+c_1 \\
+c_2 \\
+c_3
+\end{pmatrix}
+=
+\begin{pmatrix}
+c_0 + c_1 + c_2 + c_3 \\
+c_0 + c_1 \varepsilon + c_2 \varepsilon^2 + c_3 \varepsilon^3 \\
+c_0 + c_1 \varepsilon^2 + c_2 \varepsilon^4 + c_3 \varepsilon^6 \\
+c_0 + c_1 \varepsilon^3 + c_2 \varepsilon^6 + c_3 \varepsilon^9 \\
+\end{pmatrix} = 
+\begin{pmatrix}
+\sum_{k=0}^{3} c_k e^{ik\cdot 0} \\
+\sum_{k=0}^{3} c_k e^{ik\cdot \frac{2\pi}{4}} \\
+\sum_{k=0}^{3} c_k e^{ik\cdot \frac{4\pi}{4}} \\
+\sum_{k=0}^{3} c_k e^{ik\cdot \frac{6\pi}{4}} \\
+    \end{pmatrix}.
+$$
+This yields finite Fourier series for $x = 0, \frac{2\pi}{4}, \frac{4\pi}{4}, \frac{6\pi}{4}$.
+
+How do we find $c$? We have $c = \frac{1}{n} \, \overline{F_n} \, y$.
+
+\begin{definition}
+The Discrete Fourier Transform (DFT) is the interpolation of a polynomial $p(z)=c_0+c_1 z+\cdots+ c_{n-1} z^{n-1}$ that matches $n$ values $y_0, \ldots, y_{n-1}$ in $n$ points $1, \ldots, \varepsilon^{n-1}$:
+$$
+p(1) = p(\varepsilon^0) = y_0, \quad p(\varepsilon) = y_1, \quad \cdots, \quad p(\varepsilon^{n-1}) = y_{n-1}.
+$$
+\end{definition}
+
+\subsection{How to multiply fast?}
+To multiply fast, we reduce the Fourier matrix $F_n$ to a smaller Fourier matrix $F_{n/2}$. For example, we can write $F_4$ as:
+$$
+F_4=\begin{pmatrix}
+1 & 0 & 1 & 0 \\
+0 & 1 & 0 & i \\
+1 & 0 & -1 & 0 \\
+0 & 1 & 0 & -i
+\end{pmatrix}\begin{pmatrix}
+1 & 1 & 0 & 0 \\
+1 & i^2 & 0 & 0 \\
+0 & 0 & 1 & 1 \\
+0 & 0 & 1 & i^2
+\end{pmatrix}\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1
+\end{pmatrix}.$$
+
+For an arbitrary $n$ we have:
+$$
+F_{2n}=\begin{pmatrix}
+I_n & D_n \\
+I_n & -D_n
+\end{pmatrix}\begin{pmatrix}
+F_n & 0 \\
+0 & F_n
+\end{pmatrix}P_{2n},
+$$
+where $I_n$ is the identity matrix of size $n$ and $D_n = \diag[1, \varepsilon, \dots, \varepsilon^{n-1}]$, and $P_{2n}$ is the permutation matrix that swaps the even and odd columns of $F_n$.
+
+Split $y$ into halves $y'$ and $y''$, and split $c$ into halves $c' = (c_0, c_2, \dots, c_{2n-2})$ and $c'' = (c_1, c_3, \dots, c_{n-1})$. Then we have:
+$$
+y'=F_n c^{\prime}, \quad y^{\prime \prime}=F_n c^{\prime \prime}.
+$$
+
+The matrix equation above shows the step from $2n$ to $n$ as $I y^{\prime}+D y^{\prime \prime}$ and $I y^{\prime}-D y^{\prime \prime}$:
+$$
+\begin{aligned}
+y_j & =y_j^{\prime}+\left(\varepsilon_{2n}\right)^j y_j^{\prime \prime}, & & j=0, \ldots, n-1 \\
+y_{j+n} & =y_j^{\prime}-\left(\varepsilon_{2n}\right)^j y_j^{\prime \prime}, & & j=0, \ldots, n-1 .
+\end{aligned}
+$$
+
+\begin{exercise}
+Write down $P_{8}$ explicitly.
+\end{exercise}
+
+Thus we can reduce from $2n$ to $n$ by applying this step, noting that $\varepsilon_{2n}^2 = \varepsilon_n$. We can then perform this recursively.
+
+For example, the middle matrix in $F_{1024}$ is:
+$$
+\begin{pmatrix}
+F_{512} & 0 \\
+0 & F_{512}
+\end{pmatrix}
+=
+\begin{pmatrix}
+I & D & 0 & 0 \\
+I & -D & 0 & 0 \\
+0 & 0 & I & D \\
+0 & 0 & I & -D
+\end{pmatrix}
+\begin{pmatrix}
+F & 0 & 0 & 0 \\
+0 & F & 0 & 0 \\
+0 & 0 & F & 0 \\
+0 & 0 & 0 & F
+\end{pmatrix}
+\begin{pmatrix}
+\text{pick } 0,4,8,\ldots \\
+\text{pick } 2,6,10,\ldots \\
+\text{pick } 1,5,9,\ldots \\
+\text{pick } 3,7,11,\ldots
+\end{pmatrix}.
+$$
+
+Let us compute the complexity of this algorithm. To multiply a square $n\times n$ matrix by a vector, we need $n^2$ multiplications. Using the Fourier transform, we need only $\frac{1}{2} n \log_2 n$ multiplications.
+
+\begin{exercise}
+There is an amazing rule for the order in which the $c$'s enter the FFT after all even–odd permutations. Write the numbers $0$ to $n-1$ in binary (for example, $00, 01, 10, 11$ for $n=4$). Reverse the order of those digits: $00, 10, 01, 11$. That gives the bit-reversed order $0, 2, 1, 3$ with evens before odds. The complete picture shows the $c$'s in bit-reversed order, the $\ell=\log_2 n$ steps of the recursion, and the final output $y_0, \ldots, y_{n-1}$, which is $F_n$ times $c$.
+\end{exercise}
+
+\subsection{Problems}
+
+\begin{problem}
+Write down one step of the FFT algorithm for $n = 6$ reduced to $n = 3$.
+\end{problem}
+\textit{Solution.}
+Let $\omega=e^{2\pi i/3}$ and let $\varepsilon=e^{2\pi i/6}$, so $\omega=\varepsilon^2$.
+
+Split the input $c=(c_0,c_1,c_2,c_3,c_4,c_5)^{\mathrm T}$ into evens and odds:
+$$
+c'=(c_0,c_2,c_4)^{\mathrm T},\qquad c''=(c_1,c_3,c_5)^{\mathrm T}.
+$$
+
+In the matrix form, one step from $6$ to $3$ is
+$$
+F_6=
+\begin{pmatrix}
+I_3 & D_3\\[2pt]
+I_3 & -D_3
+\end{pmatrix}
+\begin{pmatrix}
+F_3 & 0\\
+0 & F_3
+\end{pmatrix}
+P_6.
+$$  
+
+Write the matrices explicitly:
+$$
+F_3=\begin{pmatrix}
+1 & 1 & 1\\
+1 & \omega & \omega^2\\
+1 & \omega^2 & \omega
+\end{pmatrix},
+$$
+$$
+F_6=\begin{pmatrix}
+1 & 1 & 1 & 1 & 1 & 1\\
+1 & \varepsilon & \varepsilon^2 & \varepsilon^3 & \varepsilon^4 & \varepsilon^5\\
+1 & \varepsilon^2 & \varepsilon^4 & 1 & \varepsilon^2 & \varepsilon^4\\
+1 & \varepsilon^3 & 1 & \varepsilon^3 & 1 & \varepsilon^3\\
+1 & \varepsilon^4 & \varepsilon^2 & 1 & \varepsilon^4 & \varepsilon^2\\
+1 & \varepsilon^5 & \varepsilon^4 & \varepsilon^3 & \varepsilon^2 & \varepsilon
+\end{pmatrix},
+$$
+$$
+D_3 = \begin{pmatrix}
+1 & 0 & 0\\
+0 & \varepsilon & 0\\
+0 & 0 & \varepsilon^2
+\end{pmatrix}.
+$$
+
+Since $P_6$ permutes the input into bit-reversed (or even–odd) order $(0,2,4,1,3,5)$, we have:
+$$
+P_6 = \begin{pmatrix}
+1 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & 0\\
+0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 1\\
+\end{pmatrix}.
+$$
+
+Then
+$$
+F_6 c = \begin{pmatrix}
+    1 & 1 & 1 & 1 & 1 & 1\\
+    1 & \varepsilon & \varepsilon^2 & \varepsilon^3 & \varepsilon^4 & \varepsilon^5\\
+    1 & \varepsilon^2 & \varepsilon^4 & 1 & \varepsilon^2 & \varepsilon^4\\
+    1 & \varepsilon^3 & 1 & \varepsilon^3 & 1 & \varepsilon^3\\
+    1 & \varepsilon^4 & \varepsilon^2 & 1 & \varepsilon^4 & \varepsilon^2\\
+    1 & \varepsilon^5 & \varepsilon^4 & \varepsilon^3 & \varepsilon^2 & \varepsilon
+    \end{pmatrix}
+    \begin{pmatrix}
+    c_0 \\
+    c_1 \\
+    c_2 \\
+    c_3 \\
+    c_4 \\
+    c_5 \\
+    \end{pmatrix}
+$$
+and
+$$
+\begin{pmatrix}
+    I_3 & D_3\\[2pt]
+    I_3 & -D_3
+    \end{pmatrix}
+    \begin{pmatrix}
+    F_3 & 0\\
+    0 & F_3
+    \end{pmatrix}
+    P_6 c =
+    \begin{pmatrix}
+    F_3 & D_3 F_3 \\
+    F_3 & -D_3 F_3 \\
+    \end{pmatrix} P_6 c =
+    \begin{pmatrix}
+        1 & 1 & 1 & 1 & 1 & 1\\
+        1 & \omega & \omega^2 & \varepsilon & \varepsilon\omega & \varepsilon\omega^2\\
+        1 & \omega^2 & \omega & \varepsilon^2 & \varepsilon^2\omega^2 & \varepsilon^2\omega\\
+        1 & 1 & 1 & -1 & -1 & -1\\
+        1 & \omega & \omega^2 & -\varepsilon & -\varepsilon\omega & -\varepsilon\omega^2\\
+        1 & \omega^2 & \omega & -\varepsilon^2 & -\varepsilon^2\omega^2 & -\varepsilon^2\omega
+    \end{pmatrix}
+    \begin{pmatrix}
+    c_0 \\
+    c_2 \\
+    c_4 \\
+    c_1 \\
+    c_3 \\
+    c_5 \\
+    \end{pmatrix} =
+$$
+$$
+= \begin{pmatrix}
+    1 & 1 & 1 & 1 & 1 & 1\\
+    1 & \varepsilon^2 & \varepsilon^4 & \varepsilon & \varepsilon^3 & \varepsilon^5\\
+    1 & \varepsilon^4 & \varepsilon^2 & \varepsilon^2 & 1 & \varepsilon^4\\
+    1 & 1 & 1 & -1 & -1 & -1\\
+    1 & \varepsilon^2 & \varepsilon^4 & -\varepsilon & -\varepsilon^3 & -\varepsilon^5\\
+    1 & \varepsilon^4 & \varepsilon^2 & -\varepsilon^2 & -1 & -\varepsilon^4
+\end{pmatrix}\begin{pmatrix}
+    c_0 \\
+    c_2 \\
+    c_4 \\
+    c_1 \\
+    c_3 \\
+    c_5 \\
+    \end{pmatrix} =
+\begin{pmatrix}
+    1 & 1 & 1 & 1 & 1 & 1\\
+    1 & \varepsilon^2 & \varepsilon^4 & \varepsilon & \varepsilon^3 & \varepsilon^5\\
+    1 & \varepsilon^4 & \varepsilon^2 & \varepsilon^2 & 1 & \varepsilon^4\\
+    1 & 1 & 1 & \varepsilon^3 & \varepsilon^3 & \varepsilon^3\\
+    1 & \varepsilon^2 & \varepsilon^4 & \varepsilon^4 & 1 & \varepsilon^2\\
+    1 & \varepsilon^4 & \varepsilon^2 & \varepsilon^5 & \varepsilon^3 & \varepsilon
+\end{pmatrix}    \begin{pmatrix}
+    c_0 \\
+    c_2 \\
+    c_4 \\
+    c_1 \\
+    c_3 \\
+    c_5 \\
+    \end{pmatrix}.
+$$
+
+\begin{problem}
+Write down one step of the FFT algorithm for $n = 8$.
+\end{problem}
+
+\begin{problem}
+Write down the FFT algorithm for $n = 4$.
+\end{problem}
+
+
+\begin{problem}
+Let $p(x)=c_0+c_1x+c_2x^2+c_3x^3$ be a polynomial of degree $3$. You are given its values at the $4$-th roots of unity:
+$$p(1) = 8, \quad p(i) = 3 - i, \quad p(-1) = -6, \quad p(-i) = 3 + i.$$
+Using the $4$-point inverse DFT, recover the coefficient vector $(c_0,c_1,c_2,c_3)$.
+\end{problem}
+%Answer: a0=2, a1=3, a2=−1, a3=4, so p(x)=2+3x−x^2+4x^3.

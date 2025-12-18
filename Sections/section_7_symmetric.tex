@@ -1,0 +1,252 @@
+\ProvidesFile{section_7_symmetric}[Section 7]
+
+\newpage
+
+\section{Symmetric matrices}
+
+See Gilbert Strang, Introduction to Linear Algebra, Chapter 6.4, 6.5.
+
+\subsection{Preliminaries}
+
+Dot product of two vectors $u, v$ (column vectors): $(u, v) = u^{\mathrm T} v = u_1 v_1 + u_2 v_2 + \cdots + u_n v_n$.
+
+Vectors are orthogonal if $(u, v) = 0$.
+
+A basis is orthogonal if its vectors are pairwise orthogonal.
+
+Norm of a real vector $u$: $\|u\| = \sqrt{(u, u)} = \sqrt{u^{\mathrm T} u} = \sqrt{u_1^2 + u_2^2 + \cdots + u_n^2}$.
+
+Norm of a complex vector $u$: $\|u\| = \sqrt{(u, u)} = \sqrt{\overline{u}^{\mathrm T} u} = \sqrt{|u_1|^2 + |u_2|^2 + \cdots + |u_n|^2}$.
+
+A basis is orthonormal if its vectors are pairwise orthogonal and have norm 1.
+
+\subsection{Symmetric matrices}
+
+\begin{definition}
+A matrix $S$ is called symmetric if $S = S^{\mathrm T}$.
+\end{definition}
+
+\begin{example}
+The matrix 
+$$
+A = \begin{pmatrix} 1 & 2\\ 2 & 4\end{pmatrix}
+$$
+is symmetric. Let's find its eigenvalues and eigenvectors. We will see that all its eigenvalues are real and its eigenvectors are orthogonal.
+\end{example}
+
+\begin{lemma}
+Let $S\in M_n(\R)$ be a symmetric matrix ($S^{\mathrm T} = S$). Then it has $n$ real eigenvalues (counted with multiplicity).
+\end{lemma}
+
+\begin{lemma}
+Let $S\in M_n(\R)$ be a symmetric matrix. Then it is diagonalizable (over $\R$).
+\end{lemma}
+
+\begin{lemma}
+Let $S\in  M_n(\R)$ be a symmetric matrix. Then eigenvectors corresponding to different eigenvalues are orthogonal.
+\end{lemma}
+
+\begin{lemma}
+Let $S\in M_n(\R)$ be a symmetric matrix. Then it can be diagonalized by an orthonormal basis of eigenvectors. That is, there exists an orthogonal matrix $C$ and a diagonal matrix $D$ such that $S = C D C^{\mathrm T}$, where $C$ is an orthogonal matrix: $C^{\mathrm T} = C^{-1}$.
+\end{lemma}
+
+Note that the columns of $C$ form an orthonormal basis.
+
+\subsection{*Bilinear forms}
+
+Let $\F$ be a field of real or complex numbers. And let $V$ be a vector space over $\F$.
+
+\begin{definition}
+A bilinear form is a function $\varphi: V \times V \to \F$ that is linear in each argument.
+\end{definition}
+
+If we fix a basis $e_1, \ldots, e_n$ in $V$, then we can represent the bilinear form as a matrix $A$ in this basis:
+$$
+\varphi(u, v) = u^{\mathrm T} A v,
+$$
+where $a_{ij} = \varphi(e_i, e_j)$.
+
+\begin{example}
+The dot product is a bilinear form. Find its matrix in the basis $e_1, e_2, \dots, e_n$.
+\end{example}
+
+\begin{lemma}
+Let $A$ be a matrix of a bilinear form $\varphi: V \times V \to \F$ in the basis $e_1, \ldots, e_n$ and let $C$ be a transition matrix from this basis to the basis $e_1', \ldots, e_n'$. Then the matrix of the bilinear form $\varphi$ in the basis $e_1', \ldots, e_n'$ is $A' = C^{\mathrm T} A C$.
+\end{lemma}
+
+\begin{definition}
+A bilinear form $\varphi: V \times V \to \F$ is called symmetric if $\varphi(u, v) = \varphi(v, u)$ for all $u, v \in V$.
+\end{definition}
+
+\begin{lemma}
+Let $\varphi: V \times V \to \F$ be a bilinear form. Then it is symmetric if and only if its matrix is symmetric (in any basis).
+\end{lemma}
+
+\subsection{Positive definite matrices}
+
+\begin{definition}
+A matrix $S\in M_n(\R)$ is called positive definite if $x^{\mathrm T} S x > 0$ for all $x \neq 0$.
+\end{definition}
+
+\begin{definition}
+A matrix $A\in M_n(\R)$ is called positive semidefinite if $x^{\mathrm T} A x \geqslant 0$ for all $x \in\R^n$.
+\end{definition}
+
+\begin{lemma}
+A symmetric matrix $S\in M_n(\R)$ is positive definite if and only if all its eigenvalues are positive.
+\end{lemma}
+
+\begin{lemma}
+A symmetric real matrix $S\in M_n(\R)$ is positive definite if and only if there exists a real matrix $A\in M_{k,n}(\R)$ with linearly independent columns such that $S = A^{\mathrm T} A$.
+\end{lemma}
+
+\begin{lemma}[Sylvester's criterion]
+A symmetric real matrix $S$ is positive definite if and only if all its leading principal minors 
+$$
+\Delta_1=a_{11}, \Delta_2=\left|\begin{array}{ll}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22}
+    \end{array}\right|, \ldots, \Delta_i=\left|\begin{array}{cccc}
+    a_{11} & a_{12} & \ldots & a_{1 i} \\
+    a_{21} & a_{22} & \ldots & a_{2 i} \\
+    \ldots & \ldots & \ldots & \ldots \\
+    a_{i 1} & a_{i 2} & \ldots & a_{i i}
+    \end{array}\right|, \ldots
+$$
+are positive.
+\end{lemma}
+
+\subsection{Problems}
+
+\begin{problem}
+Find the eigenvalues and the unit eigenvectors of the matrix 
+$$
+S=\begin{pmatrix}
+    2 & 2 & 2 \\
+    2 & 0 & 0 \\
+    2 & 0 & 0
+    \end{pmatrix}.
+$$
+Find an orthogonal matrix $C$ that diagonalizes $S$.
+\end{problem}
+
+\begin{problem}
+Find the diagonal form and an orthogonal change-of-basis matrix for the matrix 
+$$S=\begin{pmatrix}-2 & 6 \\ 6 & 7\end{pmatrix}.$$
+\end{problem}
+
+\begin{problem}
+Find an orthogonal matrix $Q$ that diagonalizes the matrix
+$$
+S=\begin{pmatrix}
+1 & 0 & 2 \\
+0 & -1 & -2 \\
+2 & -2 & 0
+\end{pmatrix}.
+$$
+\end{problem}
+
+\begin{problem}
+Find all orthogonal matrices that diagonalize 
+$$
+S=\begin{pmatrix}9 & 12 \\ 12 & 16\end{pmatrix}.
+$$
+\end{problem}
+
+\begin{problem}
+Consider a real matrix
+$$
+\begin{pmatrix}
+1 & b \\
+b & 1
+\end{pmatrix}.
+$$
+Find signs of its eigenvalues for all possible values of $b$.
+\end{problem}
+
+\begin{problem}
+Which of the following matrices are positive definite?
+$$
+\begin{pmatrix}
+1 & 2 \\
+2 & 1
+\end{pmatrix},
+\begin{pmatrix}
+1 & -2 \\
+-2 & 6
+\end{pmatrix},
+\begin{pmatrix}
+-1 & 2 \\
+2 & -6
+\end{pmatrix},
+\begin{pmatrix}
+2 & 1 & 1\\
+1 & 2 & 1\\
+1 & 1 & 2
+\end{pmatrix}.
+$$
+For positive definite matrices, find its decomposition $S = A^T A$.
+\end{problem}
+
+\begin{problem}
+Which of $S_1, S_2, S_3, S_4$ have two positive eigenvalues? Also find a vector $x$ such that $x^{\mathrm T} S_1 x < 0$, thus $S_1$ is not positive definite.
+    $$
+    S_1=\begin{pmatrix}
+    5 & 6 \\
+    6 & 7
+    \end{pmatrix},\quad
+    S_2=\begin{pmatrix}
+    -1 & -2 \\
+    -2 & -5
+    \end{pmatrix},\quad
+    S_3=\begin{pmatrix}
+    1 & 10 \\
+    10 & 100
+    \end{pmatrix}\quad
+    S_4=\begin{pmatrix}
+    1 & 10 \\
+    10 & 101
+    \end{pmatrix}.
+    $$
+\end{problem}
+
+\begin{problem}
+    For which numbers $b$ and $c$ are these matrices positive definite?
+    
+    $$
+    S_1=\begin{pmatrix}
+    1 & b \\
+    b & 9
+    \end{pmatrix},\quad
+    S_2=\begin{pmatrix}
+    2 & 4 \\
+    4 & c
+    \end{pmatrix},\quad
+    S_3=\begin{pmatrix}
+    c & b \\
+    b & c
+    \end{pmatrix}.
+    $$
+\end{problem}
+
+\begin{problem}
+    Test whether $A^{\mathrm T}A$ is positive definite in each case; this requires $A$ to have linearly independent columns.
+    $$
+    A=\begin{pmatrix}
+    1 & 2 \\
+    0 & 3
+    \end{pmatrix},
+    \quad \text{and} \quad
+    A=\begin{pmatrix}
+    1 & 1 \\
+    1 & 2 \\
+    2 & 1
+    \end{pmatrix},
+    \quad \text{and} \quad
+    A=\begin{pmatrix}
+    1 & 1 & 2 \\
+    1 & 2 & 1
+    \end{pmatrix}.
+    $$
+\end{problem}
+
