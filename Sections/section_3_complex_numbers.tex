@@ -1,11 +1,3 @@
-%TO DO: все перевести и проверить грамматику
-
-% * TO DO добавить список литературы для тех, кто интересуется, или кому мое изложение не понравится
-
-%Мажуга
-%TO DO Геометрический смысл для всего
-%TO DO Основная теорема алгебры бд со ссылкой на док-во (возможно, нужно само доказательство)
-
 \ProvidesFile{section_3_complex_numbers}[Section 3]
 
 \newpage
@@ -242,12 +234,6 @@ $$
 In the geometric interpretation, a complex number $ z = a+bi$ is represented as a vector in a Cartesian coordinate system, extending from the point $(0, 0)$ to the point $(a, b) = (\Re(z), \Im(z))$.
 
 The addition of complex numbers corresponds to the addition of vectors.
-
-%TODO Картинки Михалев стр 60
-
-
-
-
 
 \begin{exercise}
 Prove that complex numbers form a vector space over the real numbers. Find a basis and the dimension of this vector space.
@@ -917,22 +903,18 @@ Find sums:
 Prove the following equalities:
 \begin{enumerate}[a) ]
 \item $\cos x+\cos 2 x+\ldots+\cos n x=\frac{\sin \frac{n x}{2} \cos \frac{(n+1) x}{2}}{\sin \frac{x}{2}} \quad(x \neq 2 k \pi, k \in \mathbb{Z})$;
-%answer: а) $2^{n / 2} \cos \frac{n \pi}{4}$. Calculate $(1+i)^n$ using the binomial theorem and de Moivre's formula.
+%answer: a) $2^{n / 2} \cos \frac{n \pi}{4}$. Calculate $(1+i)^n$ using the binomial theorem and de Moivre's formula.
 
 \item $\sin x+\sin 2 x+\ldots+\sin n x=\frac{\sin \frac{n x}{2} \sin \frac{(n+1) x}{2}}{\sin \frac{x}{2}} \quad(x \neq 2 k \pi, k \in \mathbb{Z})$;
 %answer: $2^{n / 2} \sin \frac{n \pi}{4}$.
 
 \item $\cos \frac{\pi}{n}+\cos \frac{3 \pi}{n}+\cos \frac{5 \pi}{n}+\ldots+\cos \frac{(2 n-1) \pi}{n}=0$;
-%answer: $\frac{1}{2}\left(2^{n-1}+2^{n / 2} \cos \frac{n \pi}{4}\right)$; use а) and $\sum_{k=0}^n\left(\begin{array}{l}n \\ k\end{array}\right)=2^n$; $\sum_{k=0}^n(-1)^k\left(\begin{array}{l}n \\ k\end{array}\right)=0$.
+%answer: $\frac{1}{2}\left(2^{n-1}+2^{n / 2} \cos \frac{n \pi}{4}\right)$; use a) and $\sum_{k=0}^n\left(\begin{array}{l}n \\ k\end{array}\right)=2^n$; $\sum_{k=0}^n(-1)^k\left(\begin{array}{l}n \\ k\end{array}\right)=0$.
 
 \item $\sin \frac{\pi}{n}+\sin \frac{3 \pi}{n}+\sin \frac{5 \pi}{n}+\ldots+\sin \frac{(2 n-1) \pi}{n}=0$;
 %answer: $\frac{1}{2}\left(2^{n-1}+2^{n / 2} \sin \frac{n \pi}{4}\right)$.
 
 \item $\frac{1}{n} \sum_{k=0}^{n-1}\left(x+\varepsilon_k y\right)^n=x^n+y^n \quad\left(\varepsilon_0, \varepsilon_1, \ldots, \varepsilon_{n-1}\right.$ are $n$th roots of unity).
-%answer: $-\frac{n}{1-\varepsilon}$ при $\varepsilon \neq 1 ; \frac{n(n+1)}{2}$ when $\varepsilon=1$. When $\varepsilon \neq 1$ multiply this sum by $1-\varepsilon$.
+%answer: $-\frac{n}{1-\varepsilon}$ for $\varepsilon \neq 1; \frac{n(n+1)}{2}$ when $\varepsilon=1$. When $\varepsilon \neq 1$ multiply this sum by $1-\varepsilon$.
     \end{enumerate}
 \end{problem}
-
-
-
-
